@@ -43,3 +43,6 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# vim swp files
+*.swp
