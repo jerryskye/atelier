@@ -3,27 +3,12 @@ class BooksController < ApplicationController
   before_action :load_book, only: :show
   before_action :new_book, only: :create
 
-  def index
-  end
-
-  def new
-  end
-
-  def edit
-  end
-
   def create
     if new_book.save
       redirect_to books_path
     else
       redirect_to new_book_path
     end
-  end
-
-  def show
-  end
-
-  def destroy
   end
 
   private
