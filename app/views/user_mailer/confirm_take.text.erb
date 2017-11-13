@@ -1,0 +1,2 @@
+Wypożyczyłeś książkę <%= link_to @book.title, book_url(@book, host: "localhost:3000") %>.
+Termin zwrotu: <%= @book.taken_reservation.expires_at %>

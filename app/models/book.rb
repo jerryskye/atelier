@@ -14,7 +14,7 @@ class Book < ApplicationRecord
   end
 
   def can_be_taken?(user)
-    reservations.find_by(user: user, status: 'AVAILABLE')
+    not_taken? && ( available_for_user?(user) || reservations.empty? )
   end
 
   def can_be_given_back?(user)
@@ -55,7 +55,7 @@ class Book < ApplicationRecord
     if available_reservation.present?
       available_reservation.user == user
     else
-      pending_reservations.nil?
+      pending_reservation.nil?
     end
   end
 end

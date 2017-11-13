@@ -9,6 +9,7 @@ class ReservationsHandler
 
     if book.available_reservation.present?
       book.available_reservation.update_attributes(status: 'TAKEN')
+      UserMailer.confirm_take(user, book).deliver_now
     else
       book.reservations.create(user: user, status: 'TAKEN')
     end

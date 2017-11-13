@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102211338) do
+ActiveRecord::Schema.define(version: 20171113212338) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "authors", force: :cascade do |t|
     t.string "firstname"
@@ -21,8 +24,8 @@ ActiveRecord::Schema.define(version: 20171102211338) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "book_id"
-    t.integer "user_id"
+    t.bigint "book_id"
+    t.bigint "user_id"
     t.datetime "expires_at"
     t.index ["book_id"], name: "index_book_reservations_on_book_id"
     t.index ["user_id"], name: "index_book_reservations_on_user_id"
@@ -34,14 +37,14 @@ ActiveRecord::Schema.define(version: 20171102211338) do
     t.integer "year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "author_id"
-    t.integer "publisher_id"
+    t.bigint "author_id"
+    t.bigint "publisher_id"
     t.integer "page_count"
     t.string "published_date"
     t.string "language"
     t.string "preview_link"
     t.string "info_link"
-    t.integer "category_id"
+    t.bigint "category_id"
     t.index ["author_id"], name: "index_books_on_author_id"
     t.index ["category_id"], name: "index_books_on_category_id"
     t.index ["publisher_id"], name: "index_books_on_publisher_id"
@@ -66,9 +69,14 @@ ActiveRecord::Schema.define(version: 20171102211338) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
