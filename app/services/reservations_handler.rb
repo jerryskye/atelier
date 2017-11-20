@@ -8,11 +8,13 @@ class ReservationsHandler
     return "book is not available for reservation" unless book.can_be_taken?(user)
 
     if book.available_reservation.present?
-      book.available_reservation.update_attributes(status: 'TAKEN')
-      UserMailer.confirm_take(user, book).deliver_now
+      reservation = book.available_reservation
+      reservation.update_attributes(status: 'TAKEN')
     else
-      book.reservations.create(user: user, status: 'TAKEN')
+      reservation = book.reservations.create(user: user, status: 'TAKEN')
     end
+    UserMailer.confirm_take(user, book).deliver_now
+    BookNotifierWorker.perform_at(reservation.expires_at - 1.day, reservation.book_id)
   end
 
   def give_back(book)
