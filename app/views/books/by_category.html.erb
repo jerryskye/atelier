@@ -22,5 +22,6 @@
     <i class="fa fa-plus-circle"></i>
     add book
   <% end %>
+  <%= render partial: 'books/similar_books', locals: {books: @category.similar_books} %>
 </main>
 

@@ -18,7 +18,12 @@ class BooksController < ApplicationController
   end
 
   def by_category
-    @category = ::Category.find_by(name: params[:name])
+    @category = Category.find_by(name: params[:name])
+  end
+
+  def similar_books
+    @category = Category.find(params[:id])
+    @books = @category.similar_books
   end
 
   private

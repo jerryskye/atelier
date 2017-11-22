@@ -1,0 +1,21 @@
+<h3>Similar books</h3>
+<table>
+  <thead>
+    <tr>
+      <th>title</th>
+      <th>ISBN</th>
+      <th>category</th>
+      <th>action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% books.each do |book| %>
+      <tr>
+        <td><%= book.title %></td>
+        <td><%= book.isbn %></td>
+        <td><%= book.category.name %></td>
+        <td><%= link_to('show', book_path(book.id)) %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
