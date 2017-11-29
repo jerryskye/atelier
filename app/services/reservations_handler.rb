@@ -18,7 +18,7 @@ class ReservationsHandler
   end
 
   def give_back(book)
-    if book.can_be_given_back?(user)
+    if GivenBackPolicy.new(user: user, book: book).applies?
       ActiveRecord::Base.transaction do
         book.taken_reservation.update_attributes(status: 'RETURNED')
         book.next_in_queue.update_attributes(status: 'AVAILABLE') if book.next_in_queue.present?

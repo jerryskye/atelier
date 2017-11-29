@@ -12,7 +12,7 @@ class ReservationsController < ApplicationController
   end
 
   def give_back
-    ReservationsHandler.new(current_user).give_back(book) if book.can_be_given_back?(current_user)
+    ReservationsHandler.new(current_user).give_back(book) if GivenBackPolicy.new(user: current_user, book: book).applies?
     redirect_to(book_path(book.id))
   end
 
