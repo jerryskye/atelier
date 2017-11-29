@@ -15,14 +15,17 @@ class ReservationsHandler
     end
     UserMailer.confirm_take(user, book).deliver_now
     BookNotifierWorker.perform_at(reservation.expires_at - 1.day, reservation.book_id)
+    notify_user_calendar(reservation)
   end
 
   def give_back(book)
     if GivenBackPolicy.new(user: user, book: book).applies?
+      reservation = book.taken_reservation
       ActiveRecord::Base.transaction do
-        book.taken_reservation.update_attributes(status: 'RETURNED')
+        reservation.update_attributes(status: 'RETURNED')
         book.next_in_queue.update_attributes(status: 'AVAILABLE') if book.next_in_queue.present?
       end
+      notify_user_calendar(reservation)
     end
   end
 
@@ -38,4 +41,8 @@ class ReservationsHandler
 
   private
   attr_reader :user
+
+  def notify_user_calendar(reservation)
+    UserCalendarNotifier.new(reservation.user).perform(reservation)
+  end
 end
